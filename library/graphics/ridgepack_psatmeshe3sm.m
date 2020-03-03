@@ -5,7 +5,7 @@ function [cells]=ridgepack_psatmeshe3sm(ncvert,centlat,centlon,...
 if nargin<6
  disp 'here'
  ncmask=ncvert
- var='nCells';
+ var='nCells'; % *if not specified in input, use default var of 'nCells'
 end
 
 % height of grid superimposed on plot
@@ -14,23 +14,26 @@ gridheight=1.01;
 % reduce the data use to the plotting area to speed things up
 % and find plotting edge limit of cells
 maxth=deg2rad(horizon);
-for i=1:length(ncvert.nCells.data)
+for i=1:length(ncvert.nCells.data) % *loop through each cell
 
- maxidx=ncvert.nEdgesOnCell.data(i);
+ maxidx=ncvert.nEdgesOnCell.data(i); % *number of edges in this cell
 
+ % *lat & lon for each vertices in this cell
  la=ncvert.latitude.data(ncvert.verticesOnCell.data(1:maxidx,i));
  lo=ncvert.longitude.data(ncvert.verticesOnCell.data(1:maxidx,i));
 
+ % *calculate final x, y and z and local spherical coordinates
  [x,y,z,ph,th]=ridgepack_satfwd(rad2deg(la),rad2deg(lo),...
                                 centlat,centlon,horizon,altitude);
 
  % filter cells not in frame, and find cropping limit
- if all(isnan(x)) 
+ if all(isnan(x)) % *if all x coordinates are NaNs for this cell
   ncmask.(var).data(i)=NaN;
- elseif any(isnan(x)) & ~all(isnan(x))
+ elseif any(isnan(x)) & ~all(isnan(x)) % *if part of x coordinates is NaN
+     % *set 'removepoints' option in func ridgepack_satfwd to false
   [x,y,z,ph,th]=ridgepack_satfwd(rad2deg(la),rad2deg(lo),...
                      centlat,centlon,horizon,altitude,false);
-  maxt=max(th(:));
+  maxt=max(th(:)); % *max polar angle theta
   maxth=max(maxth,maxt);
  end
 

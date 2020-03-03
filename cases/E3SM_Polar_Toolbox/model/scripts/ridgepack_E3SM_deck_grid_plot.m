@@ -5,18 +5,18 @@ clear
 % Arctic Center
 centlat=69; % degrees north
 centlon=-100; % degrees east
-horizon=30; % degrees of satellite horizon (0-90)
+horizon=90; % degrees of satellite horizon (0-90)
 altitude=1; % Mean Earth radius multiple
 cgrid=true; % plot c-grid coastline
 coastname='DECK'; % grid name
 plotmesh=true;
 
 % location of grid file
-gridloc='/Users/aroberts/data/MODEL/E3SM/DECK/monthly/h1';
-gridfile='E3SM_LR_V1_grid.nc';
+gridloc='C:\Users\zhan006\OneDrive - PNNL\InteRFACE\Data_processing\Data\E3SM';
+gridfile='oEC60to30v3_60layer.restartFrom_anvil0926.171101.nc';
 
 % plot location
-plotloc='/Users/aroberts/work';
+plotloc='C:\Users\zhan006\OneDrive - PNNL\InteRFACE\Data_processing\Fig';
 
 % %%%%%%%%%%%%%%% CHANGE ABOVE THIS LINE %%%%%%%%%%%%%%%%%% %
 
@@ -61,6 +61,6 @@ ridgepack_psatcoaste3sm(ncvert,cgrid,coastname,...
                              centlat,centlon,horizon);
 
 cd(plotloc)
-ridgepack_fprint('png','DECK_mesh',1,1)
+ridgepack_fprint('png','DECK_mesh2_horiz90',1,1)
 
 
